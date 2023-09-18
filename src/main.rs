@@ -23,6 +23,7 @@ fn main() {
                                                vec![2, 1]);
 
     println!("{:?}", qm);
+    println!("{:?}", qm.transpose());
     
 
 

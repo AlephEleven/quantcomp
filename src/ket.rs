@@ -27,4 +27,13 @@ impl QuantumMatrix {
 
         QuantumMatrix { data: data, shape: shape, size: n}
     }
+
+    pub fn transpose(self) -> QuantumMatrix {
+        match self.shape.as_slice() {
+            [1, _] | [_, 1] => QuantumMatrix { data: self.data.iter().map(|&x| Complex::conj(x)).collect(), 
+                                                       shape: self.shape.into_iter().rev().collect(), 
+                                                        size: self.size },
+            _ => todo!()
+        }
+    }
 }
