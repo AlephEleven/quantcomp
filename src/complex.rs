@@ -5,6 +5,8 @@ use std::ops::{
     Mul,
     Div
 };
+use regex::Regex;
+
 
 
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -16,6 +18,14 @@ pub struct Complex {
 impl Complex {
     pub fn new(re: f32, im: f32) -> Complex{
         Complex { re: re, im: im }
+    }
+
+    pub fn parse(str_complex: &str) -> Complex {
+        let re = Regex::new(r"\s*(?<re>\-?\d*\.?\d*)\s*(?<im>[\+|\-]\d*\.?\d*)\s*i\s*").unwrap();
+        let Some(caps) = re.captures(str_complex) else {
+            panic!("Could not parse string!");
+        };
+        Complex { re: caps["re"].parse::<f32>().unwrap(), im: caps["im"].parse::<f32>().unwrap() }
     }
 
     pub fn real(&self) -> f32 {
