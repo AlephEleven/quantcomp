@@ -1,4 +1,12 @@
 use crate::complex::Complex;
+use std::ops::{
+    Add,
+    Sub,
+    Mul,
+    Div
+};
+use std::iter::zip;
+
 
 
 
@@ -21,9 +29,7 @@ pub enum QuantumState {
 impl QuantumMatrix {
     pub fn new(data: Vec<Complex>, shape: Vec<usize>) -> QuantumMatrix {
         let n = shape.iter().product();
-        if n != data.len() {
-            panic!("QuantumMatrix shape does not match data size")
-        }
+        assert_eq!(n, data.len());
 
         QuantumMatrix { data: data, shape: shape, size: n}
     }
@@ -35,5 +41,45 @@ impl QuantumMatrix {
                                                         size: self.size },
             _ => todo!()
         }
+    }
+}
+
+impl Add<QuantumMatrix> for QuantumMatrix{
+    type Output = QuantumMatrix;
+    fn add(self, rhs: QuantumMatrix) -> QuantumMatrix {
+        assert_eq!(self.shape, rhs.shape);
+        QuantumMatrix {data: zip(self.data, rhs.data).into_iter().map(|(x, y)| x+y).collect(),
+                       shape: self.shape,
+                       size: self.size}
+    }
+}
+
+impl Sub<QuantumMatrix> for QuantumMatrix{
+    type Output = QuantumMatrix;
+    fn sub(self, rhs: QuantumMatrix) -> QuantumMatrix {
+        assert_eq!(self.shape, rhs.shape);
+        QuantumMatrix {data: zip(self.data, rhs.data).into_iter().map(|(x, y)| x-y).collect(),
+                       shape: self.shape,
+                       size: self.size}
+    }
+}
+
+impl Mul<QuantumMatrix> for QuantumMatrix{
+    type Output = QuantumMatrix;
+    fn mul(self, rhs: QuantumMatrix) -> QuantumMatrix {
+        assert_eq!(self.shape, rhs.shape);
+        QuantumMatrix {data: zip(self.data, rhs.data).into_iter().map(|(x, y)| x*y).collect(),
+                       shape: self.shape,
+                       size: self.size}
+    }
+}
+
+impl Div<QuantumMatrix> for QuantumMatrix{
+    type Output = QuantumMatrix;
+    fn div(self, rhs: QuantumMatrix) -> QuantumMatrix {
+        assert_eq!(self.shape, rhs.shape);
+        QuantumMatrix {data: zip(self.data, rhs.data).into_iter().map(|(x, y)| x/y).collect(),
+                       shape: self.shape,
+                       size: self.size}
     }
 }
