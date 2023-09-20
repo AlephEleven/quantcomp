@@ -6,6 +6,7 @@ use std::ops::{
     Div
 };
 use std::iter::zip;
+use transpose;
 
 
 
@@ -35,12 +36,10 @@ impl QuantumMatrix {
     }
 
     pub fn transpose(self) -> QuantumMatrix {
-        match self.shape.as_slice() {
-            [1, _] | [_, 1] => QuantumMatrix { data: self.data.iter().map(|&x| Complex::conj(x)).collect(), 
-                                                       shape: self.shape.into_iter().rev().collect(), 
-                                                        size: self.size },
-            _ => todo!()
-        }
+        let mut transposed_data: Vec<Complex> = Vec::clone(&self.data);
+        transpose::transpose(&self.data, &mut transposed_data, self.shape[0], self.shape[1]);
+        
+        QuantumMatrix { data: transposed_data.iter().map(|&x| Complex::conj(x)).collect(), shape: self.shape.into_iter().rev().collect(), size: self.size}
     }
 }
 

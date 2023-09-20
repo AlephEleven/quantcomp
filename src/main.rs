@@ -19,8 +19,9 @@ fn main() {
 
     println!("{}", Complex::parse("2+3i"));
 
-    let qm = QuantumMatrix::new(vec![Complex::new(1.0, 2.0), Complex::new(2.0, 3.0)],vec![2, 1]);
+    let qm = QuantumMatrix::new(vec![Complex::new(1.0, 2.0), Complex::new(2.0, 3.0), Complex::new(3.0, 4.0), Complex::new(5.0, 6.0)],vec![2, 2]);
     println!("{:?}", qm);
+    println!("{:?}", qm.transpose());
     
 
 
